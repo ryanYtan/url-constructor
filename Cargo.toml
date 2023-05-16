@@ -2,3 +2,9 @@
 name = "url-constructor"
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/ryanYtan/url-constructor"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+exclude = [
+    "tests/*"
+]

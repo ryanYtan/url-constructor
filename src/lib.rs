@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 
 #[derive(Debug, Clone)]
-pub struct UrlBuilder {
+pub struct UrlConstructor {
     scheme: String,
     subdomains: Vec<String>,
     userinfo: Option<String>,
@@ -12,7 +12,7 @@ pub struct UrlBuilder {
     fragment: Option<String>
 }
 
-impl UrlBuilder {
+impl UrlConstructor {
     pub fn new() -> Self {
         Self {
             scheme: "https".to_owned(),
@@ -156,7 +156,7 @@ mod tests {
 
     #[test]
     fn builder_readme_example() {
-        let url = UrlBuilder::new()
+        let url = UrlConstructor::new()
             .scheme("http")
             .userinfo("alex:password1")
             .subdomain("api")
@@ -177,7 +177,7 @@ mod tests {
 
     #[test]
     fn builder_normal_usage() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .scheme("http")
             .userinfo("user:password")
             .subdomain("api")
@@ -197,14 +197,14 @@ mod tests {
 
     #[test]
     fn test_builder_empty() {
-        let actual = UrlBuilder::new().scheme("").build();
+        let actual = UrlConstructor::new().scheme("").build();
         let expected = "";
         assert_eq!(expected, actual);
     }
 
     #[test]
     fn test_builder_scheme() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .scheme("ssh")
             .build();
         let expected = format!("ssh://");
@@ -213,7 +213,7 @@ mod tests {
 
     #[test]
     fn test_builder_no_scheme() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .scheme("")
             .build();
         assert_eq!("", actual);
@@ -221,7 +221,7 @@ mod tests {
 
     #[test]
     fn test_builder_userinfo() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .userinfo("user:pass")
             .build();
         assert_eq!("https://user:pass@", actual);
@@ -229,7 +229,7 @@ mod tests {
 
     #[test]
     fn test_builder_userinfo_host() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .userinfo("user:pass")
             .host(HOST)
             .build();
@@ -239,7 +239,7 @@ mod tests {
 
     #[test]
     fn test_builder_no_scheme_with_host() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .scheme("")
             .host(HOST)
             .build();
@@ -248,7 +248,7 @@ mod tests {
 
     #[test]
     fn test_builder_host() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .host(HOST)
             .build();
         let expected = format!("https://{}", HOST);
@@ -257,7 +257,7 @@ mod tests {
 
     #[test]
     fn test_builder_subdomains() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .subdomain("api")
             .subdomain("google")
             .subdomain("com")
@@ -268,7 +268,7 @@ mod tests {
 
     #[test]
     fn test_builder_host_subdomains() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .host("google.com")
             .subdomain("api")
             .subdomain("v2")
@@ -279,7 +279,7 @@ mod tests {
 
     #[test]
     fn test_builder_port() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .port(443)
             .build();
         let expected = format!("https://:443");
@@ -288,7 +288,7 @@ mod tests {
 
     #[test]
     fn test_builder_host_port() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .host(HOST)
             .port(443)
             .build();
@@ -298,7 +298,7 @@ mod tests {
 
     #[test]
     fn test_builder_subdirs() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .subdir("s1")
             .subdir("s2")
             .build();
@@ -308,7 +308,7 @@ mod tests {
 
     #[test]
     fn test_builder_host_subdirs() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .host(HOST)
             .subdir("s1")
             .subdir("s2")
@@ -319,7 +319,7 @@ mod tests {
 
     #[test]
     fn test_builder_host_params() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .host(HOST)
             .param("k1", "v1")
             .param("k2", "v2")
@@ -331,7 +331,7 @@ mod tests {
 
     #[test]
     fn test_builder_params() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .param("k1", "v1")
             .param("k2", "v2")
             .param("k3", "v4")
@@ -342,7 +342,7 @@ mod tests {
 
     #[test]
     fn test_builder_fragment() {
-        let actual = UrlBuilder::new()
+        let actual = UrlConstructor::new()
             .fragment("foo")
             .build();
         let expected = format!("https://#foo");
