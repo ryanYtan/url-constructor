@@ -1,6 +1,6 @@
 [package]
 name = "url-constructor"
-descrption = "Simple URL builder"
+description = "Simple URL builder"
 version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/ryanYtan/url-constructor"
